@@ -1,26 +1,37 @@
 'use strict';
 
-const isHappyNumber = (number) => {
+const checkTheNumber = () => {
     let newNumber = number;
     const count = (iteration) => {
         if (iteration !== 0) {
-            let str = String(newNumber),
-                arr = Array.from(str);
+            let arr = [];
+            for (let num = newNumber; num > 0; num /= 10, num = Math.floor(num)) {
+                arr.unshift(num % 10);
+            }
             newNumber = arr.reduce(
                 (sum, n) => sum + n * n, 0
             );
             if (newNumber === 1) {
-                console.log(`The ${number} is a HappyNumber`);
-                return true
+                newNumber = true;
+                return true;
             } else {
                 count(iteration - 1);
             }
         } else {
-            console.log(`The ${number} is not a HappyNumber`);
-            return false
+            newNumber = false;
+            return false;
         }
+        return newNumber;
     };
     return count(100);
 };
 
-isHappyNumber(19);
+let number = 189;
+
+checkTheNumber(number);
+
+if (checkTheNumber(number)) {
+    console.log(`The ${number} is a HappyNumber`);
+} else {
+    console.log(`The ${number} is not a HappyNumber`);
+}
