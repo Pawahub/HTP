@@ -11,8 +11,14 @@ const arrayInt = (number) => {
 const checkTheNumber = (number, iteration) => {
     if (iteration !== 0) {
         let arr = arrayInt(number);
-        number = arr.reduce((sum, n) => sum + n * n, 0);
-        !(number === 1) ? checkTheNumber(number, iteration - 1) : true;
+        number = arr.reduce(
+            (sum, n) => sum + n * n, 0
+        );
+        if (number === 1) {
+            return true;
+        } else {
+           return checkTheNumber(number, iteration - 1);
+    }
     } else {
         return false;
     }
@@ -22,7 +28,7 @@ const isHappyNumber = (number) => {
     return checkTheNumber(number, 100);
 };
 
-let number = 189;
+let number = 19;
 
 if (isHappyNumber(number)) {
     console.log(`The ${number} is a HappyNumber`);
