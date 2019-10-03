@@ -18,16 +18,22 @@ const PersonSchema = {
 
 const validateBySchema = (hash, schema) => {
     let result = true;
-    const keys = Object.keys(schema);
-    for (let i = 0; i < keys.length; i += 1) {
-        const key = keys[i];
-        const value = hash[key];
-        const fieldType = schema[key];
-        result = result && typeof value === fieldType;
+
+    if (Object.keys(schema).length > Object.keys(hash).length) {
+        console.log('Не заполнено одно поле!');
+        return false;
+    } else if (Object.keys(schema).length < Object.keys(hash).length) {
+        console.log('Введено лишнее значение!');
+        return false;
+    }
+
+    for (let key in hash) {
+        if (typeof hash[key] !== schema[key]) {
+            console.log(`Поле ${key} заполнено некорректно!`);
+            return false;
+        }
     }
     return result;
 };
 
 console.log(validateBySchema(person, PersonSchema));
-
-console.log(Object.keys(person));
