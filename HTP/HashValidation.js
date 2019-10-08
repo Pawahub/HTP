@@ -2,7 +2,7 @@
 
 const person = {
     address: 'Grodno',
-    firstName: 'Ivan',
+    firstName: 545,
     lastName: 'Ivanov',
     age: 30,
     weight: 50,
@@ -19,33 +19,8 @@ const PersonSchema = {
 const validateData = {
     extraKeys: [],
     missingKeys: [],
-    wrongVal: [],
-    correctVal: [],
-};
-
-const result = (validateData) => {
-    let message = 'In this hash ';
-    if (validateData.extraKeys.length === 1) {
-        message = message + `has an extra key '${validateData.extraKeys}'\n`;
-    } else if (validateData.extraKeys.length > 1) {
-        message = message + `has an extra keys: '${validateData.extraKeys}'\n`;
-    }
-    if (validateData.missingKeys.length === 1) {
-        message = message + `schema key '${validateData.missingKeys}' is missing\n`;
-    } else if (validateData.missingKeys.length > 1) {
-        message = message + `schema keys: '${validateData.missingKeys}' are missing\n`;
-    }
-    if (validateData.wrongVal.length === 1) {
-        message = message + `key '${validateData.wrongVal}' entered incorrectly\n`;
-    } else if (validateData.wrongVal.length > 1) {
-        message = message + `keys: '${validateData.wrongVal}' entered incorrectly\n`;
-    }
-    if (validateData.correctVal.length === 1) {
-        message = message + `key '${validateData.correctVal}' match the value\n`;
-    } else if (validateData.correctVal.length > 1) {
-        message = message + `keys: '${validateData.correctVal}' match the values\n`;
-    }
-    return console.log(message);
+    correctValues: [],
+    incorrectlyEnteredFields: [],
 };
 
 const validateBySchema = (hash, schema) => {
@@ -62,15 +37,25 @@ const validateBySchema = (hash, schema) => {
     for (let key in hash) {
         if (schemaKey.includes(key)) {
             if (typeof hash[key] !== schema[key]) {
-                validateData.wrongVal.push(key);
+                validateData.incorrectlyEnteredFields.push(key);
             } else {
-                validateData.correctVal.push(key);
+                validateData.correctValues.push(key);
             }
         } else  {
             validateData.extraKeys.push(key);
         }
     }
     return result(validateData);
+};
+
+const result = (validateData) => {
+    let message = 'In this hash has ';
+    for (let key in validateData) {
+        if (validateData[key].length !== 0) {
+            message = message + `${key}: '${validateData[key]}'\n`;
+        }
+    }
+    return console.log(message);
 };
 
 validateBySchema(person, PersonSchema);
