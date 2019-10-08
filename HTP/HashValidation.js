@@ -45,17 +45,26 @@ const validateBySchema = (hash, schema) => {
             validateData.extraKeys.push(key);
         }
     }
-    return result(validateData);
+    if  (validateData.correctValues.length === hashKey.length && hashKey.length === schemaKey.length) {
+        return true;
+    }
+    return validateData;
 };
 
 const result = (validateData) => {
     let message = '';
+    if  (validateData === true) {
+        message = 'All values are correct. Hash match.';
+        return message;
+    }
     for (let key in validateData) {
         if (validateData[key].length !== 0) {
-            message = message + `In this hash has ${key}: '${validateData[key]}'\n`;
+            message = message + `This hash has ${key}: '${validateData[key]}'\n`;
         }
     }
-    return console.log(message);
+    return message;
 };
 
-validateBySchema(person, PersonSchema);
+const validationResult = validateBySchema(person, PersonSchema);
+
+console.log(result(validationResult));
