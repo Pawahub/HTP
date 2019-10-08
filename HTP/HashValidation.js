@@ -2,7 +2,7 @@
 
 const person = {
     address: 'Grodno',
-    firstName: 545,
+    firstName: 'Ivan',
     lastName: 'Ivanov',
     age: 30,
     weight: 50,
@@ -49,10 +49,10 @@ const validateBySchema = (hash, schema) => {
 };
 
 const result = (validateData) => {
-    let message = 'In this hash has ';
+    let message = '';
     for (let key in validateData) {
         if (validateData[key].length !== 0) {
-            message = message + `${key}: '${validateData[key]}'\n`;
+            message = message + `In this hash has ${key}: '${validateData[key]}'\n`;
         }
     }
     return console.log(message);
