@@ -16,16 +16,18 @@ const PersonSchema = {
     weight: 'number',
 };
 
-const validateData = {
-    extraKeys: [],
-    missingKeys: [],
-    correctValues: [],
-    incorrectlyEnteredFields: [],
-};
-
 const validateBySchema = (hash, schema) => {
+
     let schemaKey = Object.keys(schema),
-        hashKey = Object.keys(hash);
+        hashKey = Object.keys(hash),
+
+        validateData = {
+        extraKeys: [],
+        missingKeys: [],
+        correctValues: [],
+        incorrectlyEnteredFields: [],
+    };
+
     if (schemaKey.length !== hashKey.length) {
         console.log('Here even the number of fields does not match, but');
     }
@@ -65,6 +67,4 @@ const result = (validateData) => {
     return message;
 };
 
-const validationResult = validateBySchema(person, PersonSchema);
-
-console.log(result(validationResult));
+console.log(result(validateBySchema(person, PersonSchema)));
