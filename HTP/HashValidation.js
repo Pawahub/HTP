@@ -16,21 +16,22 @@ const PersonSchema = {
     weight: 'number',
 };
 
+let status = false;
+
 const validateBySchema = (hash, schema) => {
 
     let schemaKey = Object.keys(schema),
         hashKey = Object.keys(hash),
 
-        validateData = {
+    const validateData = {
         extraKeys: [],
         missingKeys: [],
         correctValues: [],
-        incorrectlyEnteredFields: [],
+        wrongValues: [],
     };
 
-    if (schemaKey.length !== hashKey.length) {
-        console.log('Here even the number of fields does not match, but');
-    }
+    if (schemaKey.length !== hashKey.length) status = wrongQty;
+    
     for (let key in schema) {
         if (!hashKey.includes(key)) {
             validateData.missingKeys.push(key);
@@ -39,7 +40,7 @@ const validateBySchema = (hash, schema) => {
     for (let key in hash) {
         if (schemaKey.includes(key)) {
             if (typeof hash[key] !== schema[key]) {
-                validateData.incorrectlyEnteredFields.push(key);
+                validateData.wrongValues.push(key);
             } else {
                 validateData.correctValues.push(key);
             }
@@ -47,18 +48,19 @@ const validateBySchema = (hash, schema) => {
             validateData.extraKeys.push(key);
         }
     }
-    if  (validateData.correctValues.length === hashKey.length && hashKey.length === schemaKey.length) {
-        return true;
+    if  (validateData.correctValues.length === hashKey.length === schemaKey.length) {
+        return status ==== true;
     }
     return validateData;
 };
 
 const result = (validateData) => {
     let message = '';
-    if  (validateData === true) {
-        message = 'All values are correct. Hash match.';
-        return message;
-    }
+    
+    if (status === true) return message = 'All values are correct. Hash match.';
+    else if (status === wrongQty) message = 'Here even the number of fields does not match, but';
+    else message = 'Something going wrong';
+    
     for (let key in validateData) {
         if (validateData[key].length !== 0) {
             message = message + `This hash has ${key}: '${validateData[key]}'\n`;
