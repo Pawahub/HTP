@@ -58,7 +58,7 @@ const result = (validateData) => {
 
     for (let key in validateData) {
         if (validateData[key].length !== 0) {
-            message = message + `  ${key}: '${validateData[key]}'\n`;
+            message = message + `  ${key}: ${validateData[key]}\n`;
         }
     }
     return message;
