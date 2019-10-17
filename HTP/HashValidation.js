@@ -6,7 +6,6 @@ const person = {
     lastName: 'Ivanov',
     age: 30,
     weight: 50,
-    aweight: 50,
 };
 
 const PersonSchema = {

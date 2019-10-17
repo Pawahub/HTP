@@ -4,8 +4,8 @@ const person = {
     address: 'Grodno',
     firstName: 'Ivan',
     lastName: 'Ivanov',
-    age: 30,
-    weight: 100,
+    age: '30',
+    weight: '100',
 };
 
 const PersonSchema = {
@@ -23,10 +23,10 @@ const validateBySchema = (hash, schema) => {
     let schemaKeys = Object.keys(schema),
         hashKeys = Object.keys(hash),
         schemaItems = Object.values(schema),
-        hashItems = Object.values(hash);
+        hashItems = Object.values(hash),
+        typeOfItems = hashItems.map(item => typeof item);
 
     const validateData = {
-        typeOfItems: hashItems.map(item => typeof item),
         missingKeys: schemaKeys.filter(key => !(hashKeys.includes(key))),
         extraKeys: hashKeys.filter(key => !(schemaKeys.includes(key))),
         wrongItems: [],
@@ -40,15 +40,17 @@ const validateBySchema = (hash, schema) => {
         return arr;
     };
 
-    let isMatch = zip(validateData.typeOfItems, schemaItems).map(item => item[0] === item[1]).reduce(reducer);
+    let values = zip(typeOfItems, schemaItems).map(item => item[0] === item[1]);
+
+    let isMatch = values.reduce(reducer);
 
     if (schemaKeys.length === hashKeys.length) result = 'qty';
 
     if (result && isMatch) return result = true;
     else {
-        for (let key in hash) {
-            if (schemaKeys.includes(key) && typeof hash[key] !== schema[key]) validateData.wrongItems.push(key);
-        }
+        validateData.wrongItems = zip(hashKeys, values).filter(item => {
+            if (item[1] === false) return item.splice(1, 1);
+        });
         return validateData;
     }
 };
@@ -62,8 +64,8 @@ const validate = (validateData) => {
     else message = 'This hash has:\n';
 
     for (let key in validateData) {
-        if (validateData[key].length !== 0 && key !== 'typeOfItems') {
-            message = message + `  ${key}: '${validateData[key]}'\n`;
+        if (validateData[key].length !== 0) {
+            message = message + `  ${key}: ${validateData[key]}\n`;
         }
     }
     message = message + `Other fields match the schema.`;
