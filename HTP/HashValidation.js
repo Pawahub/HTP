@@ -52,13 +52,13 @@ const result = (validateData) => {
 
     let message = '';
 
-    if (status === true) return message = 'All values are correct. Hash match.';
+    if (status === true) return message = 'All values are correct. Hash match the schema.';
     else if (status === 'wrongQty') message = `Here even the number of fields does not match, but hash has:\n`;
     else message = 'This hash has:\n';
 
     for (let key in validateData) {
         if (validateData[key].length !== 0) {
-            message = message + `  ${key}: '${validateData[key]}'\n`;
+            message = message + `  ${key}: ${validateData[key]}\n`;
         }
     }
     return message;

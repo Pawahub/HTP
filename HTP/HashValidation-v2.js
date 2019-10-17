@@ -4,8 +4,8 @@ const person = {
     address: 'Grodno',
     firstName: 'Ivan',
     lastName: 'Ivanov',
-    age: '30',
-    weight: '100',
+    age: 30,
+    weight: 100,
 };
 
 const PersonSchema = {
@@ -59,7 +59,7 @@ const validate = (validateData) => {
 
     let message = '';
 
-    if (result === true) return message = 'All values are correct. Hash match.';
+    if (result === true) return message = 'All values are correct. Hash match the schema.';
     else if (result !== 'qty') message = `Here even the number of fields does not match, but hash has:\n`;
     else message = 'This hash has:\n';
 
