@@ -10,7 +10,6 @@ const person = {
 
 const PersonSchema = {
     address: 'string',
-    aaddress: 'string',
     firstName: 'string',
     lastName: 'string',
     age: 'number',
