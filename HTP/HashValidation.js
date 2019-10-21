@@ -16,21 +16,20 @@ const PersonSchema = {
     weight: 'number',
 };
 
-let status = false;
-
 const validateBySchema = (hash, schema) => {
 
     let schemaKey = Object.keys(schema),
         hashKey = Object.keys(hash);
 
     const validateData = {
+        status: false,
         extraKeys: [],
         missingKeys: [],
         correctValues: [],
         wrongValues: [],
     };
 
-    if (schemaKey.length !== hashKey.length) status = 'wrongQty';
+    if (schemaKey.length !== hashKey.length) validateData.status = 'wrongQty';
 
     for (let key in schema) {
         if (!hashKey.includes(key)) validateData.missingKeys.push(key);
@@ -43,7 +42,7 @@ const validateBySchema = (hash, schema) => {
         else validateData.extraKeys.push(key);
     }
 
-    if (validateData.correctValues.length === hashKey.length && hashKey.length === schemaKey.length) return status = true;
+    if (validateData.correctValues.length === hashKey.length && hashKey.length === schemaKey.length) validateData.status = true;
 
     return validateData;
 };
@@ -52,16 +51,18 @@ const result = (validateData) => {
 
     let message = '';
 
-    if (status === true) return message = 'All values are correct. Hash match.';
-    else if (status === 'wrongQty') message = `Here even the number of fields does not match, but hash has:\n`;
+    if (validateData.status === true) return message = 'All values are correct. Hash match.';
+    else if (validateData.status === 'wrongQty') message = `Here even the number of fields does not match, but hash has:\n`;
     else message = 'This hash has:\n';
 
     for (let key in validateData) {
-        if (validateData[key].length !== 0) {
+        if (validateData[key].length !== 0 && key !== 'status') {
             message = message + `  ${key}: ${validateData[key]}\n`;
         }
     }
     return message;
 };
 
-console.log(result(validateBySchema(person, PersonSchema)));
+let validate = validateBySchema(person, PersonSchema);
+
+console.log(result(validate));
