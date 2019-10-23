@@ -18,7 +18,7 @@ const PersonSchema = {
 
 class ValidateData {
 
-    constructor (hash, schema) {
+    values (hash, schema) {
         this.schemaKeys = Object.keys(schema);
         this.hashKeys = Object.keys(hash);
         this.schemaValues = Object.values(schema);
@@ -64,18 +64,18 @@ class ValidateData {
     }
 }
 
-const validate = () => {
+const result = () => {
     let message = '';
-    if (result.lengthMatch() && result.hashMatch()) return message = 'All values are correct. Hash match the schema.';
-    else if (result.lengthMatch() === false) message = `Here even the number of fields does not match, but this hash has:\n`;
+    if (user.lengthMatch() && user.hashMatch()) return message = 'All values are correct. Hash match the schema.';
+    else if (user.lengthMatch() === false) message = `Here even the number of fields does not match, but this hash has:\n`;
     else message = 'This hash has:\n';
-    if (result.missingKeys().length !== 0) message = message + `  these missing keys: ${result.missingKeys()}\n`;
-    if (result.extraKeys().length !== 0) message = message + `  these extra keys: ${result.extraKeys()}\n`;
-    if (result.wrongValues().length !== 0) message = message + `  these wrong values: ${result.wrongValues()}\n`;
+    if (user.missingKeys().length !== 0) message = message + `  these missing keys: ${user.missingKeys()}\n`;
+    if (user.extraKeys().length !== 0) message = message + `  these extra keys: ${user.extraKeys()}\n`;
+    if (user.wrongValues().length !== 0) message = message + `  these wrong values: ${user.wrongValues()}\n`;
     message = message + `Other fields match the schema.`;
     return message;
 };
 
-let result = new ValidateData(person, PersonSchema);
+const user = new ValidateData;
 
-console.log(validate(result));
+console.log(result(user.values(person, PersonSchema)));
