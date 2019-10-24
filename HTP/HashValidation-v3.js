@@ -18,12 +18,13 @@ const PersonSchema = {
 
 class ValidateData {
 
-    values (hash, schema) {
+    obj (hash, schema) {
         this.schemaKeys = Object.keys(schema);
         this.hashKeys = Object.keys(hash);
         this.schemaValues = Object.values(schema);
         this.hashValues = Object.values(hash);
         this.schemaItems = this.zip(this.schemaKeys, this.schemaValues);
+        return this;
     }
 
     typeOfValues () {
@@ -64,8 +65,11 @@ class ValidateData {
     }
 }
 
-const result = () => {
+const validate = (hash, schema) => {
+
     let message = '';
+    let user = new ValidateData().obj(hash, schema);
+
     if (user.lengthMatch() && user.hashMatch()) return message = 'All values are correct. Hash match the schema.';
     else if (user.lengthMatch() === false) message = `Here even the number of fields does not match, but this hash has:\n`;
     else message = 'This hash has:\n';
@@ -76,6 +80,4 @@ const result = () => {
     return message;
 };
 
-const user = new ValidateData;
-
-console.log(result(user.values(person, PersonSchema)));
+console.log(validate(person, PersonSchema));
